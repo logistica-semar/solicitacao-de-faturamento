@@ -148,9 +148,15 @@ main{max-width:1180px;margin:0 auto}
 .pill.s-back{background:var(--back-soft);color:var(--back-ink)} .pill.s-back i{background:var(--back)}
 .c-l{font-size:13px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;height:20px;line-height:20px}
 .c-l.m{color:var(--ink-3);font-size:12.5px}
+/* ID completo do pedido: linha própria, 2 linhas fixas, toque para copiar */
+.c-id{grid-column:1 / -1;margin-top:10px;display:flex;align-items:flex-start;gap:8px;height:36px;padding:3px 8px 3px 10px;border-radius:10px;background:var(--surface-2);cursor:copy}
+.c-id small{flex:none;font-size:10px;font-weight:700;letter-spacing:.07em;color:var(--ink-3);line-height:30px}
+.c-id code{flex:1;min-width:0;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;line-height:15px;color:var(--ink-2);word-break:break-all;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;align-self:center}
+.c-id svg{flex:none;width:15px;height:15px;color:var(--ink-3);align-self:center}
+.c-id:active{background:var(--line)}
 
 /* trilha: 3 pontos fixos (começo, meio, fim) */
-.trilha{grid-column:1 / -1;position:relative;height:40px;margin:14px 8px 0}
+.trilha{grid-column:1 / -1;position:relative;height:40px;margin:12px 8px 0}
 .trilha .trk,.trilha .fill{position:absolute;top:5px;left:0;height:3px;border-radius:3px}
 .trilha .trk{right:0;background:var(--line)}
 .trilha .fill{width:var(--p);background:var(--c);animation:cresce .9s cubic-bezier(.3,.7,.2,1) both;animation-delay:calc(var(--i) * 45ms + .25s)}
@@ -235,6 +241,53 @@ main{max-width:1180px;margin:0 auto}
   .esq{height:208px}
   .grupo{grid-column:1 / -1}
 }
+
+/* ---------- ajuda ---------- */
+.hdr-t{overflow:hidden}
+.hdr-t b,.hdr-t span{overflow:hidden;text-overflow:ellipsis}
+@media (max-width:899px){.hdr-in{gap:10px}.hdr-t{padding-left:10px}.hdr-t b{font-size:clamp(12px,3.4vw,15px)}.logo-chip{padding:0 6px;height:38px}.hdr-t span{font-size:clamp(11px,3vw,12px)}.aj-btn{height:38px;min-width:38px;padding:0 8px}}
+.aj-btn{margin-left:auto;flex:none;height:40px;min-width:40px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);color:var(--navy);display:flex;align-items:center;justify-content:center;gap:6px;padding:0 9px;font-weight:700;font-size:14px;cursor:pointer;transition:transform .15s,background .2s,border-color .2s}
+.aj-btn svg{width:20px;height:20px}
+.aj-btn span{display:none}
+.aj-btn:hover{border-color:var(--navy)}
+.aj-btn:active{transform:scale(.94)}
+.ajuda{position:fixed;inset:0;z-index:60;display:none}
+.ajuda.on{display:block}
+.aj-fundo{position:absolute;inset:0;background:rgba(10,14,24,.5);opacity:0;transition:opacity .25s}
+.ajuda.vis .aj-fundo{opacity:1}
+.aj-painel{position:absolute;left:0;right:0;bottom:0;background:var(--surface);border-radius:22px 22px 0 0;padding:10px 16px calc(18px + env(safe-area-inset-bottom));max-height:92dvh;overflow:auto;transform:translateY(100%);transition:transform .32s cubic-bezier(.2,.8,.2,1);box-shadow:0 -10px 40px rgba(0,0,0,.18)}
+.ajuda.vis .aj-painel{transform:none}
+.aj-alca{width:40px;height:4px;border-radius:4px;background:var(--line);margin:0 auto 12px}
+.aj-top{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px}
+.aj-top h2{margin:0;font-size:19px;letter-spacing:-.02em;color:var(--ink)}
+.aj-top p{margin:3px 0 0;font-size:13.5px;color:var(--ink-3)}
+.aj-x{margin-left:auto;flex:none;width:38px;height:38px;border-radius:12px;border:0;background:var(--surface-2);color:var(--ink-2);display:grid;place-items:center;cursor:pointer}
+.aj-x svg{width:20px;height:20px}
+.aj-pessoa{border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px;background:var(--surface);opacity:0;transform:translateY(10px);transition:opacity .3s,transform .35s cubic-bezier(.2,.8,.2,1)}
+.ajuda.vis .aj-pessoa{opacity:1;transform:none}
+.ajuda.vis .aj-pessoa:nth-of-type(2){transition-delay:.06s}
+.ajuda.vis .aj-pessoa:nth-of-type(3){transition-delay:.12s}
+.aj-quem{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.aj-av{width:46px;height:46px;border-radius:50%;background:var(--navy-soft);color:var(--navy);display:grid;place-items:center;font-weight:800;font-size:16px;flex:none}
+.aj-quem b{display:block;font-size:16px;color:var(--ink)}
+.aj-quem span{display:block;font-size:13px;color:var(--ink-3)}
+.aj-acoes{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.aj-b{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;min-height:64px;border-radius:14px;border:1.5px solid var(--line);background:var(--surface-2);color:var(--ink);font-weight:700;font-size:13px;text-decoration:none;transition:transform .15s,border-color .2s,background .2s}
+.aj-b svg{width:22px;height:22px}
+.aj-b:active{transform:scale(.95)}
+.aj-b:hover{border-color:var(--navy)}
+.aj-b.wa{background:#25d366;border-color:#25d366;color:#05361a}
+.aj-b.wa:hover{border-color:#1da851}
+.aj-dados{margin-top:10px;font-size:12.5px;color:var(--ink-3);display:flex;flex-wrap:wrap;gap:2px 12px}
+.aj-dados a{color:var(--ink-2);text-decoration:none}
+body.travado{overflow:hidden}
+@media (min-width:900px){
+  .aj-btn{margin-left:8px;padding:0 14px}
+  .aj-btn span{display:inline}
+  .aj-painel{left:50%;right:auto;bottom:auto;top:50%;width:460px;border-radius:22px;padding:20px;transform:translate(-50%,-46%) scale(.97);opacity:0;transition:transform .3s cubic-bezier(.2,.8,.2,1),opacity .25s}
+  .ajuda.vis .aj-painel{transform:translate(-50%,-50%);opacity:1}
+  .aj-alca{display:none}
+}
 </style>
 </head>
 <body>
@@ -250,6 +303,9 @@ main{max-width:1180px;margin:0 auto}
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h10M4 12h7M4 17h5"/><circle cx="17" cy="15" r="4"/><path d="M17 13.5V15l1 1"/></svg>
         Acompanhar<span class="badge" id="badge"></span></button>
     </nav>
+    <button class="aj-btn" id="ajBtn" type="button" aria-label="Ajuda" aria-haspopup="dialog">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M9.3 9.2a2.8 2.8 0 0 1 5.4 1c0 1.9-2.7 2.4-2.7 4"/><path d="M12 17.3h.01"/></svg>
+      <span>Ajuda</span></button>
   </div>
   <div class="relogio" aria-hidden="true"><i id="relogio"></i></div>
 </header>
@@ -292,6 +348,33 @@ main{max-width:1180px;margin:0 auto}
   </section>
 </main>
 <div class="toast" id="toast"></div>
+<div class="ajuda" id="ajuda">
+  <div class="aj-fundo" data-fecha></div>
+  <div class="aj-painel" role="dialog" aria-modal="true" aria-labelledby="ajTit">
+    <div class="aj-alca"></div>
+    <div class="aj-top"><div><h2 id="ajTit">Precisa de ajuda?</h2><p>Escolha com quem falar. O botão já abre a conversa.</p></div>
+      <button class="aj-x" type="button" data-fecha aria-label="Fechar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+      <div class="aj-pessoa">
+        <div class="aj-quem"><div class="aj-av">JM</div><div><b>Juliana Monteiro</b><span>Gestora da área</span></div></div>
+        <div class="aj-acoes">
+          <a class="aj-b wa" href="https://wa.me/5511950739936?text=Ol%C3%A1%2C%20Juliana%21%20Tenho%20uma%20d%C3%BAvida%20sobre%20as%20Solicita%C3%A7%C3%B5es%20de%20Faturamento." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2a9.7 9.7 0 0 0-8.4 14.6L2.3 21.8l5.1-1.3A9.7 9.7 0 1 0 12 2.2Zm0 17.6c-1.5 0-2.9-.4-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A7.9 7.9 0 1 1 12 19.8Zm4.4-5.9c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8.9c-.1.2-.3.2-.5.1a6.5 6.5 0 0 1-3.2-2.8c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2.9 2.4c.1.1 1.6 2.5 4 3.5 1.5.6 2.1.7 2.8.6.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.2-.1Z"/></svg>WhatsApp</a>
+          <a class="aj-b" href="tel:+5511950739936"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 1.1 4.2 2 2 0 0 1 3.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L7.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2Z"/></svg>Ligar</a>
+          <a class="aj-b" href="mailto:juliana.monteiro@gruposemar.com.br?subject=D%C3%BAvida%3A%20Solicita%C3%A7%C3%B5es%20de%20Faturamento&body=Ol%C3%A1%2C%20Juliana%2C%0A%0ATenho%20uma%20d%C3%BAvida%20sobre%20as%20Solicita%C3%A7%C3%B5es%20de%20Faturamento%3A%0A%0A"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="m3 6 9 7 9-7"/></svg>E-mail</a>
+        </div>
+        <div class="aj-dados"><a href="tel:+5511950739936">+55 11 95073-9936</a><a href="mailto:juliana.monteiro@gruposemar.com.br">juliana.monteiro@gruposemar.com.br</a></div>
+      </div>
+      <div class="aj-pessoa">
+        <div class="aj-quem"><div class="aj-av">LS</div><div><b>Luccas Souza</b><span>Suporte do aplicativo</span></div></div>
+        <div class="aj-acoes">
+          <a class="aj-b wa" href="https://wa.me/5511932018859?text=Ol%C3%A1%2C%20Luccas%21%20Tenho%20uma%20d%C3%BAvida%20sobre%20as%20Solicita%C3%A7%C3%B5es%20de%20Faturamento." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2a9.7 9.7 0 0 0-8.4 14.6L2.3 21.8l5.1-1.3A9.7 9.7 0 1 0 12 2.2Zm0 17.6c-1.5 0-2.9-.4-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A7.9 7.9 0 1 1 12 19.8Zm4.4-5.9c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8.9c-.1.2-.3.2-.5.1a6.5 6.5 0 0 1-3.2-2.8c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2.9 2.4c.1.1 1.6 2.5 4 3.5 1.5.6 2.1.7 2.8.6.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.2-.1Z"/></svg>WhatsApp</a>
+          <a class="aj-b" href="tel:+5511932018859"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 1.1 4.2 2 2 0 0 1 3.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L7.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2Z"/></svg>Ligar</a>
+          <a class="aj-b" href="mailto:luccas.nunes@gruposemar.com.br?subject=D%C3%BAvida%3A%20Solicita%C3%A7%C3%B5es%20de%20Faturamento&body=Ol%C3%A1%2C%20Luccas%2C%0A%0ATenho%20uma%20d%C3%BAvida%20sobre%20as%20Solicita%C3%A7%C3%B5es%20de%20Faturamento%3A%0A%0A"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="m3 6 9 7 9-7"/></svg>E-mail</a>
+        </div>
+        <div class="aj-dados"><a href="tel:+5511932018859">+55 11 93201-8859</a><a href="mailto:luccas.nunes@gruposemar.com.br">luccas.nunes@gruposemar.com.br</a></div>
+      </div>
+  </div>
+</div>
+
 
 <script>
 (function(){
@@ -299,7 +382,7 @@ main{max-width:1180px;margin:0 auto}
   // ====== CONFIGURAÇÃO ======
   var CONFIG = {
     // Endereço do App da Web do Apps Script (Implantar > Gerenciar implantações > URL que termina em /exec)
-    API_URL: 'https://script.google.com/macros/s/AKfycbyBtuUWiOzztHkMhhjG5_zGHiUsC7LQ4FXx3zLhHZkTSDyWJl_wZLMr8G_OA4mbAtAV/exec',
+    API_URL: 'https://script.google.com/macros/s/AKfycbxaKoEkGvjWrbzpiMA0ivX6RjJtpt6Rqi5gExSYOAXWYYV7fPXcaDDMFhWP1PDAUByu/exec',
     FORM_URL: 'https://docs.google.com/forms/d/e/1FAIpQLSfr0fx0-YkOMlHBvTWcDEoPsIs2EtVwMOwzyphXgtVABvVRFA/viewform',
     // Logo oficial Semar Supermercados; a imagem tem margem branca, o recorte mostra só a marca
     LOGO_URL: 'https://d2q79iu7y748jz.cloudfront.net/s/_squarelogo/256x256/38cc0fdac3c9fc543730ce2011fc27da',
@@ -351,7 +434,7 @@ main{max-width:1180px;margin:0 auto}
     if (!src) return;
     var img = new Image();
     img.onload = function(){
-      var H = 34, box = document.createElement('div'); box.className = 'logo-box';
+      var H = window.innerWidth < 400 ? 28 : 34, box = document.createElement('div'); box.className = 'logo-box';
       if (rec){
         var k = H / rec.h; box.style.width = Math.round(rec.w*k)+'px';
         img.style.width = (rec.tamanho*k)+'px'; img.style.left = (-rec.x*k)+'px'; img.style.top = (-rec.y*k)+'px';
@@ -571,12 +654,14 @@ main{max-width:1180px;margin:0 auto}
       slot = partes.length ? '<div class="slot"><div class="tx">'+partes.join(' · ')+'</div><span class="mais-obs">ver mais</span></div>'
                            : '<div class="slot vazio-obs"><div class="tx">Sem observações</div></div>';
     }
-    var linha2 = multi ? 'Lojas '+esc(ls.join(', ')) : 'Pedido '+esc(d.id);
+    var linha2 = 'Solicitado às '+hhmm(d.t)+(multi ? ' · Lojas '+esc(ls.join(', ')) : '');
     return '<article class="card s-'+s.k+(mudaram[d.id]?' mudou':'')+'" style="--i:'+Math.min(i||0,12)+'">'+
       '<div class="loja"><small>'+(multi?'LOJAS':'LOJA')+'</small><b class="tnum">'+(multi? ls.length : esc(ls[0]||'-'))+'</b></div>'+
       '<div class="c-top"><span class="placa">'+esc(d.placa||'Sem placa')+'</span><span class="pill s-'+s.k+(s.aberto?' vivo':'')+'"><i></i>'+esc(s.t)+'</span></div>'+
-      '<div class="c-l">'+esc(d.setor)+' · '+esc(d.sol)+' às '+hhmm(d.t)+'</div>'+
+      '<div class="c-l">'+esc(d.setor)+' · '+esc(d.sol)+'</div>'+
       '<div class="c-l m">'+linha2+'</div>'+
+      '<div class="c-id" data-id="'+esc(d.id)+'" title="Toque para copiar"><small>ID</small><code>'+esc(d.id)+'</code>'+
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg></div>'+
       trilha+
       '<div class="c-foot"><span class="fat">'+(d.fat?'Faturista: <b>'+esc(d.fat)+'</b>':'Aguardando faturista')+'</span>'+
         (d.notas!=null && s.k==='ok'?'<span class="tnum"><b>'+d.notas+'</b> nota'+(d.notas===1?'':'s')+'</span>':'')+tempo+'</div>'+
@@ -590,9 +675,33 @@ main{max-width:1180px;margin:0 auto}
   }
   // tocar no cartão abre/fecha a observação completa
   $('lista').addEventListener('click', function(e){
+    var idEl = e.target.closest('.c-id');
+    if (idEl){ copiar(idEl.dataset.id); return; }   // tocar no ID copia o código completo
     var c = e.target.closest('.card'); if (!c) return;
     if (c.querySelector('.slot.cortado') || c.classList.contains('aberto')) c.classList.toggle('aberto');
   });
+
+  function copiar(txt){
+    function ok(){ aviso('ID do pedido copiado'); }
+    if (navigator.clipboard && window.isSecureContext){ navigator.clipboard.writeText(txt).then(ok, function(){ manual(); }); }
+    else manual();
+    function manual(){ var t = document.createElement('textarea'); t.value = txt; t.setAttribute('readonly',''); t.style.position='fixed'; t.style.opacity='0';
+      document.body.appendChild(t); t.select(); try { document.execCommand('copy'); ok(); } catch(e){} document.body.removeChild(t); }
+  }
+
+  // ---------- ajuda ----------
+  var aj = $('ajuda'), ajVolta = null;
+  function abrirAjuda(){
+    ajVolta = document.activeElement; aj.classList.add('on'); document.body.classList.add('travado');
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ aj.classList.add('vis'); aj.querySelector('.aj-x').focus(); }); });
+  }
+  function fecharAjuda(){
+    aj.classList.remove('vis'); document.body.classList.remove('travado');
+    setTimeout(function(){ aj.classList.remove('on'); if (ajVolta) ajVolta.focus(); }, 300);
+  }
+  $('ajBtn').onclick = abrirAjuda;
+  [].forEach.call(aj.querySelectorAll('[data-fecha]'), function(el){ el.onclick = fecharAjuda; });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && aj.classList.contains('on')) fecharAjuda(); });
 
   // ---------- abas ----------
   function ir(pg){
