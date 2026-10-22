@@ -2,7 +2,7 @@
 
 Portal web para **solicitar faturamento** e **acompanhar o andamento** das solicitações do Centro de Distribuição (CD) do Grupo Semar, feito para ser usado principalmente pelo celular.
 
-**Acesse:** https://logistica-semar.github.io/acompanhamento-faturamento/
+**Acesse:** https://logistica-semar.github.io/solicitacao-de-faturamento/
 
 ---
 
