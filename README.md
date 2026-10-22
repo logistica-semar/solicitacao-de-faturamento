@@ -1,4 +1,4 @@
-# Acompanhamento de Faturamento | Grupo Semar Supermercados
+# Solicitação de Faturamento | Grupo Semar Supermercados
 
 Portal web para **solicitar faturamento** e **acompanhar o andamento** das solicitações do Centro de Distribuição (CD) do Grupo Semar, feito para ser usado principalmente pelo celular.
 
