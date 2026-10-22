@@ -433,6 +433,20 @@ body.travado{overflow:hidden}
   .hero{padding:22px 24px 12px}
   .hero .big b{font-size:52px}
 }
+
+/* colunas lado a lado sempre com a mesma altura (PC): o conteúdo se distribui por dentro */
+.col-dir{display:grid;gap:12px}
+@media (min-width:900px){
+  .m-grid{align-items:stretch}
+  .m-12{align-self:start}
+  .col-dir{display:flex;flex-direction:column;gap:12px}
+  .col-dir > .m-card{flex:1 1 auto}
+  .m-card.par{display:flex;flex-direction:column}
+  .m-card.par .corpo{flex:1 1 auto;display:flex;flex-direction:column;justify-content:center}
+  .m-card.par .corpo.dist{justify-content:space-evenly}
+  .m-card.par .corpo > .m-vazio{flex:1 1 auto;display:flex;flex-direction:column;justify-content:center}
+  .m-card.par .rank.corpo{margin-top:4px}
+}
 </style>
 </head>
 <body>
@@ -1012,7 +1026,7 @@ body.travado{overflow:hidden}
     A.fin.forEach(function(r){ if (!r.fat) return; var f = porF[r.fat] || (porF[r.fat] = {nome:r.fat, ped:0, notas:0, tempos:[]}); f.ped++; f.notas += r.notas; if (r.tempo != null && r.tempo > 0) f.tempos.push(r.tempo); });
     var fs = Object.keys(porF).map(function(k){ return porF[k]; }).sort(function(a,b){ return b.notas - a.notas; });
     function tf(f){ return f.tempos.length >= 3 ? 'tempo '+dur(mediana(f.tempos)) : 'sem tempo'; }
-    h += '<div class="m-card m-7" style="--i:2"><h3>Quem mais faturou</h3><p class="cap">Notas dos pedidos finalizados por faturista</p>';
+    h += '<div class="m-card m-7 par" style="--i:2"><h3>Quem mais faturou</h3><p class="cap">Notas dos pedidos finalizados por faturista</p>';
     if (!fs.length) h += '<div class="m-vazio">Sem pedidos finalizados no período.</div>';
     else {
       h += '<div class="podio">'+fs.slice(0,3).map(function(f,i){
@@ -1020,17 +1034,17 @@ body.travado{overflow:hidden}
           '<div class="nm" title="'+esc(f.nome)+'">'+esc(f.nome.split(' ')[0])+'</div><div class="nt tnum" data-conta="'+f.notas+'">0</div>'+
           '<div class="ex">'+pct(f.notas, A.notas)+'% · '+fmtN(f.ped)+' ped.</div><div class="ex">'+tf(f)+'</div></div>'; }).join('')+'</div>';
       var resto = fs.slice(3), maxR = resto.length ? resto[0].notas : 1;
-      if (resto.length) h += '<div class="rank">'+resto.map(function(f,i){
+      if (resto.length) h += '<div class="rank corpo dist">'+resto.map(function(f,i){
         return '<div class="rk" data-tip="<b>'+esc(f.nome)+'</b><br>'+fmtN(f.notas)+' notas · '+fmtN(f.ped)+' pedidos<br>'+pct(f.notas, A.notas)+'% das notas · '+tf(f)+'"><span class="ps">'+(i+4)+'º</span><span class="nm">'+esc(f.nome)+'</span>'+
           '<div class="br"><span style="width:'+(f.notas/maxR*100)+'%;animation-delay:'+(0.3+i*0.05)+'s"></span></div><span class="nt tnum">'+fmtN(f.notas)+'</span></div>'; }).join('')+'</div>';
     }
     h += '</div>';
 
     // COLUNA DIREITA: ritmo + setores (empilhados para acompanhar a altura do pódio)
-    h += '<div class="m-5" style="display:grid;gap:12px">';
+    h += '<div class="m-5 col-dir">';
     var faixas = [['Até 15 min',15],['15 a 30 min',30],['30 min a 1h',60],['1h a 2h',120],['2h a 4h',240],['Mais de 4h',Infinity]];
     var corF = ['#9ec5f4','#6da7ec','#3987e5','#256abf','#184f95','#0d366b'];
-    h += '<div class="m-card ritmo" style="--i:3"><h3>Ritmo do CPD</h3><p class="cap">Da solicitação até finalizar</p>';
+    h += '<div class="m-card ritmo par" style="--i:3"><h3>Ritmo do CPD</h3><p class="cap">Da solicitação até finalizar</p><div class="corpo">';
     if (A.med == null) h += '<div class="m-vazio"><b>Ainda sem registros suficientes</b>O tempo é anotado automaticamente a cada atualização, quando o status muda. Os pedidos finalizados a partir de agora entram aqui.</div>';
     else {
       var cont = faixas.map(function(){ return 0; });
@@ -1040,12 +1054,12 @@ body.travado{overflow:hidden}
         '<div class="faixas">'+cont.map(function(c,i){ return c ? '<span data-tip="<b>'+faixas[i][0]+'</b><br>'+fmtN(c)+' pedidos ('+pct(c, A.tempos.length)+'%)" style="flex:'+c+';background:'+corF[i]+';animation-delay:'+(0.3+i*0.06)+'s"></span>' : ''; }).join('')+'</div>'+
         '<div class="leg">'+cont.map(function(c,i){ return '<div><i style="background:'+corF[i]+'"></i>'+faixas[i][0]+'<b class="tnum">'+pct(c, A.tempos.length)+'%</b></div>'; }).join('')+'</div>';
     }
-    h += '</div>';
+    h += '</div></div>';
     var ps = {}; rows.forEach(function(r){ var k = r.setor || 'Sem setor'; var s = ps[k] || (ps[k] = {n:0, c:0}); s.n++; if (r.st === 'Cancelado') s.c++; });
     var pk = Object.keys(ps).sort(function(a,b){ return ps[b].n - ps[a].n; });
-    h += '<div class="m-card" style="--i:4"><h3>Pedidos por setor</h3><p class="cap">Quem mais solicita faturamento</p>'+
+    h += '<div class="m-card par" style="--i:4"><h3>Pedidos por setor</h3><p class="cap">Quem mais solicita faturamento</p><div class="corpo dist">'+
       (pk.length ? pk.map(function(k,i){ return '<div class="hb" data-tip="<b>'+esc(k)+'</b><br>'+fmtN(ps[k].n)+' pedidos · '+ps[k].c+' cancelado'+(ps[k].c===1?'':'s')+'"><span class="n">'+esc(k)+'</span>'+
-        '<span class="t"><span style="width:'+(ps[k].n/ps[pk[0]].n*100)+'%;animation-delay:'+(0.3+i*0.05)+'s"></span></span><span class="v tnum">'+pct(ps[k].n, A.ped)+'%</span></div>'; }).join('') : '<div class="m-vazio">Sem pedidos.</div>')+'</div>';
+        '<span class="t"><span style="width:'+(ps[k].n/ps[pk[0]].n*100)+'%;animation-delay:'+(0.3+i*0.05)+'s"></span></span><span class="v tnum">'+pct(ps[k].n, A.ped)+'%</span></div>'; }).join('') : '<div class="m-vazio">Sem pedidos.</div>')+'</div></div>';
     h += '</div>';
 
     // MAPA DE CALOR
@@ -1077,7 +1091,7 @@ body.travado{overflow:hidden}
     curvaHero($('chHero'), dias, mediaDia);
     contarTudo($('metConteudo'));
   }
-  function deltaTxt(a, b){ if (!b) return ''; var v = (a-b)/b*100; return (v >= 0 ? '▲ ' : '▼ ') + Math.abs(Math.round(v)) + '%'; }
+  function deltaTxt(a, b){ if (!b) return ''; var v = (a-b)/b*100; if (Math.abs(v) < 0.5) return '= igual'; return (v >= 0 ? '▲ ' : '▼ ') + Math.abs(Math.round(v)) + '%'; }
 
   // curva de notas por dia dentro do herói: linha que se desenha, área suave, média tracejada, melhor dia em destaque
   function curvaHero(el, dias, media){
