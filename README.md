@@ -45,13 +45,15 @@ O tempo de faturamento vai do **Carimbo de data/hora** até a hora em que o pedi
 
 ### Registro de tempos
 
-O AppSheet não atualiza a coluna Última Movimentação quando o status muda. Para não mexer no AppSheet, o próprio Apps Script registra essa hora:
+O AppSheet não atualiza a coluna Última Movimentação quando o status muda. Para não mexer no AppSheet nem na planilha, o próprio Apps Script registra essa hora:
 
 - **Comparação:** a cada leitura (de 15 em 15 min), o status de cada pedido é comparado com o da leitura anterior.
-- **Hora anotada:** quando muda, a hora fica numa planilha separada, criada automaticamente no Drive: *Solicitação de Faturamento | Registro de tempos*. A planilha do AppSheet não é alterada.
+- **Onde fica:** quando um pedido vira Finalizado ou Cancelado, a hora fica guardada nas **Propriedades do script** (Configurações do projeto > Propriedades do script). Nenhum arquivo é criado no Drive e a planilha não é alterada; ela só é lida.
+- **Espaço:** só ficam os dias usados pelas Métricas (cerca de 90); os mais antigos são apagados sozinhos. Com uns 60 pedidos por dia, usa perto de 190 KB dos 500 KB disponíveis.
 - **Precisão:** a hora anotada é o meio do intervalo entre as duas leituras, com erro de até 7,5 minutos para mais ou para menos.
 - **Intervalo grande:** se a leitura anterior foi há mais de 40 minutos, a hora fica em branco, para não registrar um valor impreciso.
 - **Gatilho:** para não perder mudanças quando ninguém está com a página aberta, rode uma vez a função `instalarGatilho` no editor. Ela cria uma leitura automática de 15 em 15 minutos. Para desligar, rode `removerGatilho`.
+- **Conferência:** a função `conferirRegistro` mostra no registro de execução quantos pedidos já têm tempo e o espaço usado.
 - **Prioridade:** se o registro não tiver a hora, vale a Última Movimentação da planilha, desde que ela seja depois do Carimbo.
 
 ## Status
@@ -106,12 +108,35 @@ Tudo roda nos planos gratuitos do Google e do GitHub.
 |---|---|---|
 | `index.html` | Este repositório (GitHub Pages) | A página: visual, filtros, cartões, métricas e ajuda. |
 | `Code.gs` | Projeto do Google Apps Script | A API de dados que lê a planilha. Fica neste repositório só como referência. |
+| `Backup.gs` | Outro projeto do Google Apps Script | Backup diário que tira das tabelas originais o que passa de 30 dias. Fica neste repositório só como referência. |
 | `logo-semar.png` | Este repositório | Logo oficial do Semar (sem fundo) usado no topo da página. |
 | `favicon.svg`, `favicon-32.png`, `apple-touch-icon.png`, `icon-192.png`, `icon-512.png` | Este repositório | Ícone do site com o símbolo do Semar (aba do navegador e atalho na tela inicial do celular). |
 | `site.webmanifest` | Este repositório | Nome e ícones usados quando alguém adiciona o portal à tela inicial. |
 | `og-image.jpg` | Este repositório | Imagem de prévia ao compartilhar o link (WhatsApp, Teams, e-mail). |
 | `README.md` | Este repositório | Esta documentação. |
 | `LICENSE` | Este repositório | Termos de uso do código. |
+
+## Backup de histórico (mais de 30 dias)
+
+As tabelas originais (Pedidos, Notas Fiscais e Comentários) guardam só os últimos 30 dias. Todo o resto vai, de forma automática, para as planilhas de backup, que têm as mesmas colunas na mesma ordem. Isso fica num projeto do Apps Script separado (`Backup.gs`).
+
+- **Quando roda:** uma vez por dia, por volta das 3h, por um gatilho diário. Leva poucos segundos.
+- **Pedidos:** sai o pedido com mais de 30 dias que já terminou. Pedido Pendente, Trabalhando ou Backlog fica, mesmo antigo, até terminar.
+- **Notas Fiscais e Comentários:** saem junto com o pedido: só quando têm mais de 30 dias e o pedido delas já saiu da tabela Pedidos. Assim o AppSheet nunca mostra um pedido sem as notas ou os comentários dele.
+- **Ordem segura:** primeiro copia para o backup, depois apaga da original. Antes de apagar, confere de novo se as linhas são as mesmas; se alguém mexeu nelas durante o backup, ficam para o dia seguinte.
+- **Sem duplicar:** o que já está no backup não é copiado de novo.
+- **Formatos:** textos como a loja "01" e datas com hora continuam iguais no backup.
+- **Proteção:** cada tabela original é encontrada pelo cabeçalho igual ao do backup. Se não achar, não mexe naquela tabela e registra o motivo. Se Pedidos der erro, Notas Fiscais e Comentários também não são mexidas.
+- **Métricas de 90 dias:** como a planilha principal fica com 30 dias, a aba Métricas do site lê também o (Backup) Pedidos, no máximo 1 vez por hora e só quando alguém abre a aba. O Acompanhar continua lendo só a principal.
+
+Funções do `Backup.gs`:
+
+| Função | O que faz |
+|---|---|
+| `simularBackup` | Mostra o que seria movido, sem alterar nenhuma planilha. |
+| `executarBackup` | Faz o backup agora (é a função que o gatilho diário chama). |
+| `instalarGatilhoBackup` / `removerGatilhoBackup` | Liga ou desliga o backup diário automático. |
+| `verUltimoBackup` | Mostra o resultado do último backup. |
 
 ## Configuração
 
@@ -133,6 +158,7 @@ Tudo roda nos planos gratuitos do Google e do GitHub.
 | `CICLO_MIN` | Intervalo de atualização do Acompanhar, em minutos (padrão: 15). |
 | `DIAS_METRICAS` | Dias enviados para as Métricas (padrão: 90). |
 | `CICLO_METRICAS_MIN` | Intervalo de atualização das Métricas, em minutos (padrão: 60). |
+| `BACKUP_PEDIDOS_ID` / `BACKUP_PEDIDOS_GID` | Planilha e aba do (Backup) Pedidos, lidas pelas Métricas para completar os 90 dias. |
 
 As colunas da aba `Pedidos` são encontradas pelo **nome do cabeçalho**, não pela letra. Mudar uma coluna de lugar não quebra nada, mas renomear um cabeçalho quebra. Cabeçalhos usados:
 
