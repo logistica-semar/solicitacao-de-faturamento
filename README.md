@@ -125,7 +125,7 @@ As tabelas originais (Pedidos, Notas Fiscais e Comentários) guardam só os últ
 - **Notas Fiscais e Comentários:** saem junto com o pedido: só quando têm mais de 30 dias e o pedido delas já saiu da tabela Pedidos. Assim o AppSheet nunca mostra um pedido sem as notas ou os comentários dele.
 - **Ordem segura:** primeiro copia para o backup, depois apaga da original. Antes de apagar, confere de novo se as linhas são as mesmas; se alguém mexeu nelas durante o backup, ficam para o dia seguinte.
 - **Sem duplicar:** o que já está no backup não é copiado de novo.
-- **Formatos:** textos como a loja "01" e datas com hora continuam iguais no backup.
+- **Formatos:** as planilhas de backup são Tabelas com colunas de tipo fixo, então o script não muda formato de célula. Textos que o Planilhas transformaria em número, como a loja "01", vão com apóstrofo e ficam iguais aos da original.
 - **Proteção:** cada tabela original é encontrada pelo cabeçalho igual ao do backup. Se não achar, não mexe naquela tabela e registra o motivo. Se Pedidos der erro, Notas Fiscais e Comentários também não são mexidas.
 - **Métricas de 90 dias:** como a planilha principal fica com 30 dias, a aba Métricas do site lê também o (Backup) Pedidos, no máximo 1 vez por hora e só quando alguém abre a aba. O Acompanhar continua lendo só a principal.
 
