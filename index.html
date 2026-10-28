@@ -710,7 +710,8 @@ body.travado{overflow:hidden}
   // ---------- filtros ----------
   function noPeriodo(d){
     var h = dia0(agora());
-    if (f.periodo === 'hoje') return d.t >= h;
+    // Backlog é pendência: aparece em Hoje seja qual for a data, até ser finalizado ou cancelado
+    if (f.periodo === 'hoje') return d.t >= h || st(d.status).k === 'back';
     if (f.periodo === 'ontem') return d.t >= h - 86400000 && d.t < h;
     return d.t >= h - 6*86400000;
   }
