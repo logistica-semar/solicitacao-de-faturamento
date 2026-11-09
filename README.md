@@ -23,23 +23,34 @@ Na aba **Acompanhar**:
 - **Contadores por status**, separados em *Em aberto* (Pendente, Trabalhando, Backlog) e *Concluídos* (Finalizado, Cancelado). Tocar num contador filtra a lista.
 - **Cartões de pedido**, todos do mesmo tamanho, com:
   - loja, placa, setor, solicitante, data e hora da solicitação;
+  - logo abaixo, data e hora da finalização ou do cancelamento ("Aguardando finalização" nos pedidos em aberto; "horário não registrado" quando não há a hora);
   - ID completo do pedido (tocar copia o código);
   - trilha de andamento: Pendente, Trabalhando ou Backlog, Finalizado;
   - faturista e quantidade de notas;
   - tempo: nos pedidos em aberto ele corre a cada minuto (fica vermelho depois de 2 horas); nos Finalizados e Cancelados fica fixo, da solicitação até a última movimentação;
   - observações do solicitante e do CPD;
   - nos cancelados, o motivo informado pelo CPD.
+- **Ordem da lista:** em andamento, o mais antigo no topo; concluídos (Finalizado e Cancelado), pela hora da finalização ou do cancelamento, o mais recente no topo. Sem essa hora, vale a hora da solicitação.
 - **Aviso de mudança:** quando um pedido muda de status, o cartão acende e aparece "1 pedido mudou de status".
-- **Botão Ajuda** com WhatsApp, ligação e e-mail dos responsáveis.
-- Modo escuro automático (segue o aparelho) e layout próprio para PC.
+- **Botão Ajuda** com WhatsApp, ligação e e-mail dos responsáveis, e o histórico de **Novidades do portal**.
+- **Novidades de hoje:** no dia de uma atualização, um card no topo mostra o que mudou.
+- **Tema:** botão no topo que alterna entre Sistema (segue o aparelho), Claro e Escuro. Cada aparelho lembra a escolha. Layout próprio para PC.
 
-Na aba **Métricas** (período de 7, 30 ou 90 dias):
+Na aba **Métricas** (período de Hoje, 7, 30 ou 90 dias):
 
-- **Destaque:** total de notas faturadas, variação contra o período anterior e curva de notas por dia (com média e melhor dia).
+- **Destaque:** notas faturadas e **pedidos atendidos** (pedidos Finalizados), cada um com a variação contra o período anterior, e notas por pedido. O seletor **Notas | Pedidos** escolhe o que a curva mostra por dia (com média e melhor dia) e o que ordena o top 5. Cada aparelho lembra a escolha.
 - **Indicadores:** pedidos, finalizados, tempo de faturamento (mediana) e cancelados, cada um com a variação contra o período anterior.
 - **Quem mais faturou:** pódio dos 3 primeiros faturistas e lista dos demais (notas, pedidos, participação e tempo).
 - **Ritmo do CPD:** mediana do tempo até finalizar e distribuição por faixas de tempo.
 - **Pedidos por setor**, **Quando chegam os pedidos** (mapa de calor por dia da semana e hora) e **Dias mais faturados** (top 5).
+
+Período **Hoje** na aba Métricas (cada aparelho lembra o período escolhido):
+
+- Usa os mesmos dados do Acompanhar, então atualiza a cada 15 minutos sem nenhuma leitura extra da planilha. Conta os pedidos solicitados hoje.
+- A comparação é com **ontem até a mesma hora**, para não comparar um dia pela metade com um dia inteiro.
+- O destaque mostra a curva de notas **por hora** (das 6h até a hora atual), com a média por hora e a melhor hora.
+- Indicadores, Quem mais faturou, Ritmo do CPD e Pedidos por setor funcionam como nos outros períodos.
+- No lugar do mapa de calor entra **Chegadas × finalizações por hora**; no lugar dos dias mais faturados entra **Fila agora** (Pendente, Trabalhando, Backlog e o pedido que espera há mais tempo).
 
 O tempo de faturamento vai do **Carimbo de data/hora** até a hora em que o pedido virou **Finalizado** (ou Cancelado).
 
@@ -170,6 +181,23 @@ As colunas da aba `Pedidos` são encontradas pelo **nome do cabeçalho**, não p
 
 1. Neste repositório, envie o novo `index.html` (**Add file > Upload files**) e confirme o commit.
 2. Em 1 ou 2 minutos o GitHub Pages atualiza o site.
+
+**Avisar o que mudou (Novidades)**
+
+No começo do script do `index.html` fica a lista `NOVIDADES`. A cada publicação, acrescente uma entrada **no topo**, com a data do dia em que publicar (ano-mês-dia) e o que mudou:
+
+```js
+var NOVIDADES = [
+  { data:'2026-11-20', itens:[
+    'Primeira novidade.',
+    'Segunda novidade.'
+  ]},
+  { data:'2026-11-09', itens:[ ... ]}   // entradas antigas continuam abaixo
+];
+```
+
+- No dia da `data`, o Acompanhar e as Métricas mostram o card **Novidades de hoje**, e o botão Ajuda ganha um pontinho vermelho. Cada aparelho pode fechar o card no X. No dia seguinte o card some sozinho.
+- O histórico completo fica sempre na **Ajuda**, em "Novidades do portal" (3 mais recentes, com "Ver todas").
 
 **API (`Code.gs`)**
 
